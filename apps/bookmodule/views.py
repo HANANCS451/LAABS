@@ -1,5 +1,25 @@
 from django.shortcuts import render
+from .models import Book
 
+def simple_query(request):
+    mybooks=Book.objects.filter(title__icontains='and') # <- multiple objects
+    return render(request, 'bookmodule/bookList.html', {'books':mybooks})
+
+def complex_query(request):
+    mybooks = Book.objects.filter(
+        author__isnull=False
+    ).filter(
+        title__icontains='and'
+    ).filter(
+        edition__gte=2
+    ).exclude(
+        price__lte=100
+    )[:10]
+
+    if mybooks.exists():
+        return render(request, 'bookmodule/bookList.html', {'books': mybooks})
+    else:
+        return render(request, 'bookmodule/index.html')
 def index(request):
     return render(request, "bookmodule/index.html")
 
