@@ -1,0 +1,21 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Task 4 - Ordered Books {% endblock title %}
+
+{% block content %}
+<h2>Books Ordered by Title:</h2>
+
+{% if books %}
+    <ul>
+    {% for obj in books %}
+        <li>ID: {{ obj.id }}, Title: {{ obj.title }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No books available to list.</p>
+{% endif %}
+
+<br>
+<a href="{% url 'task4' %}">← Refresh List</a>
+
+{% endblock content %}

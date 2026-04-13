@@ -1,0 +1,21 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Task 3 - Negative Search {% endblock title %}
+
+{% block content %}
+<h2>Books with NO Editions > 3 and NO 'qu' in Title/Author:</h2>
+
+{% if books %}
+    <ul>
+    {% for obj in books %}
+        <li>ID: {{ obj.id }}, Title: {{ obj.title }}, Edition: {{ obj.edition }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No books found matching the criteria (Opposite of Task 2).</p>
+{% endif %}
+
+<br>
+<a href="{% url 'task3' %}">← Refresh List</a>
+
+{% endblock content %}

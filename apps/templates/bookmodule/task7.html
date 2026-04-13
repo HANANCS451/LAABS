@@ -1,0 +1,24 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Task 7 - Students per City {% endblock title %}
+
+{% block content %}
+<h2>Number of Students in Each City:</h2>
+
+{% if cities %}
+    <ul>
+    {% for obj in cities %}
+        <li>
+            <strong>City:</strong> {{ obj.city }} — 
+            <strong>Number of Students:</strong> {{ obj.student_count }}
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No city data available.</p>
+{% endif %}
+
+<br>
+<a href="{% url 'task7' %}">← Refresh List</a>
+
+{% endblock content %}

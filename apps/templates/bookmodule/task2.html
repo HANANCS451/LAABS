@@ -1,0 +1,21 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Task 2 - Advanced Search {% endblock title %}
+
+{% block content %}
+<h2>Books with Editions > 3 and containing 'qu':</h2>
+
+{% if books %}
+    <ul>
+    {% for obj in books %}
+        <li>ID: {{ obj.id }}, Title: {{ obj.title }}, Edition: {{ obj.edition }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No books found matching the criteria (Edition > 3 and Title/Author contains 'qu').</p>
+{% endif %}
+
+<br>
+<a href="{% url 'task2' %}">← Refresh List</a>
+
+{% endblock content %}

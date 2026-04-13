@@ -1,5 +1,40 @@
 from django.shortcuts import render
 from .models import Book
+from django.db.models import Q
+from django.db.models import Q, Avg, Max, Min, Sum, Count
+from .models import Address 
+def task7(request):
+     cities = Address.objects.annotate(student_count=Count('student'))
+     return render(request, 'bookmodule/task7.html', {'cities': cities})
+def task5(request):
+    stats = Book.objects.aggregate(
+        total_books=Count('id'),      
+        total_price=Sum('price'),     
+        average_price=Avg('price'),   
+        maximum_price=Max('price'),   
+        minimum_price=Min('price')    
+    )
+    return render(request, 'bookmodule/task5.html', {'stats': stats})
+
+def task4(request):
+    books = Book.objects.all().order_by('title')
+    return render(request, 'bookmodule/task4.html', {'books': books})
+
+def task3(request):
+    books = Book.objects.filter(
+        ~Q(edition__gt=3) & ~(Q(title__icontains='qu') | Q(author__icontains='qu'))
+    )
+    return render(request, 'bookmodule/task3.html', {'books': books})
+
+def task2(request):
+    books = Book.objects.filter(
+        Q(edition__gt=3) & (Q(title__icontains='qu') | Q(author__icontains='qu'))
+    )
+    return render(request, 'bookmodule/task2.html', {'books': books})
+
+def task1(request):
+    books = Book.objects.filter(Q(price__lte=80))
+    return render(request, 'bookmodule/task1.html', {'books': books})
 
 def simple_query(request):
     mybooks=Book.objects.filter(title__icontains='and') # <- multiple objects

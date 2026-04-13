@@ -1,0 +1,23 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Task 5 - Book Statistics {% endblock title %}
+
+{% block content %}
+<h2>Book Inventory Statistics:</h2>
+
+{% if stats %}
+    <ul>
+        <li><strong>Total Number of Books:</strong> {{ stats.total_books }}</li>
+        <li><strong>Total Price of All Books:</strong> {{ stats.total_price }}</li>
+        <li><strong>Average Price:</strong> {{ stats.average_price|floatformat:2 }}</li>
+        <li><strong>Maximum Price:</strong> {{ stats.maximum_price }}</li>
+        <li><strong>Minimum Price:</strong> {{ stats.minimum_price }}</li>
+    </ul>
+{% else %}
+    <p>No data available to calculate statistics.</p>
+{% endif %}
+
+<br>
+<a href="{% url 'task5' %}">← Refresh Statistics</a>
+
+{% endblock content %}
