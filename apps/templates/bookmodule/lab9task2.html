@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Task 2: Publisher Stock</title>
+    <style>
+        table { width: 60%; border-collapse: collapse; margin: 20px auto; }
+        th, td { border: 1px solid #ccc; padding: 10px; text-align: center; }
+        th { background-color: #fdb; }
+        h2 { text-align: center; font-family: Arial, sans-serif; }
+    </style>
+</head>
+<body>
+    <h2>Total Book Stock Per Publisher</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Publisher Name</th>
+                <th>Total Book Stock</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for publisher in publishers %}
+            <tr>
+                <td>{{ publisher.name }}</td>
+                <td>{{ publisher.total_stock|default:0 }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="2">No publishers found at the moment.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

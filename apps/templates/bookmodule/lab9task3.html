@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Task 3: Oldest Book Per Publisher</title>
+    <style>
+        table { width: 85%; border-collapse: collapse; margin: 20px auto; font-family: sans-serif; }
+        th, td { border: 1px solid #ccc; padding: 12px; text-align: center; }
+        th { background-color: #d1ecf1; color: #0c5460; }
+        h2 { text-align: center; font-family: sans-serif; color: #333; }
+    </style> </head>
+<body>  <h2>Oldest Book Details Per Publisher</h2>
+    <table> <thead> <tr>
+                <th>Publisher Name</th>
+                <th>Oldest Book Title</th>
+                <th>Publication Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for publisher in publishers %}
+            <tr>
+                <td>{{ publisher.name }}</td>
+                <td>{{ publisher.oldest_book_title|default:"No books" }}</td>
+                <td>
+                    {% if publisher.oldest_pub_date %}
+                        {{ publisher.oldest_pub_date|date:"Y-m-d" }}
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
+            </tr>
+            {% empty %} <tr>
+                <td colspan="3">No publishers found.</td>
+            </tr>
+            {% endfor %}   </tbody>  </table> </body> </html>
