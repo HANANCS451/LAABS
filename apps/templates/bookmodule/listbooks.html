@@ -1,0 +1,64 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+{% block title %}List of Books{% endblock title %}
+{% block stylesheets %}
+<style>
+  h1 { color: #2c3e50; text-align: center; }
+  .add-link { display: inline-block; margin-bottom: 20px; padding: 10px 15px; background-color: #28a745; color: white; text-decoration: none; border-radius: 5px; }
+  table { width: 100%; border-collapse: collapse; }
+  th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+  th { background-color: #f8f9fa; }
+  tr:nth-child(even) { background-color: #f2f2f2; }
+  .btn-edit { color: #007bff; text-decoration: none; font-weight: bold; }
+  .btn-delete { color: #dc3545; text-decoration: none; font-weight: bold; margin-left: 10px; }
+</style>
+{% endblock stylesheets %}
+{% block content %}
+<h1>Books Inventory</h1>
+<a href="{% url 'add_book' %}" class="add-link"> + Add New Book</a>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Publisher</th>
+            <th>Authors</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for book in books %}
+        <tr>
+            <td>{{ book.id }}</td>
+            <td>{{ book.title }}</td>
+            <td>${{ book.price }}</td>
+            <td>{{ book.quantity }}</td>
+            <td>
+                {% if book.publisher %}
+                    {{ book.publisher.name }}
+                {% else %}
+                    <span style="color: gray;">No Publisher</span>
+                {% endif %}
+            </td>
+            <td>
+                {% for author in book.authors.all %}
+                    {{ author.name }}{% if not forloop.last %}, {% endif %}
+                {% empty %}
+                    No Authors
+                {% endfor %}
+            </td>
+            <td>
+                <a href="{% url 'edit_book' book.id %}" class="btn-edit">Edit</a>
+                <a href="{% url 'delete_book' book.id %}" class="btn-delete" onclick="return confirm('Are you sure?')">Delete</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="7" style="text-align: center;">No books found.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock content %}

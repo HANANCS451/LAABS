@@ -1,0 +1,28 @@
+{% extends "layouts/base.html" %}
+{% block title %}Add New Book{% endblock title %}
+{% block content %}
+<h1>Add a New Book</h1>
+<form method="POST" action="{% url 'add_book' %}" style="max-width: 500px;">
+    {% csrf_token %} 
+    <p><label>Title:</label><br><input type="text" name="title" required style="width: 100%;"></p>
+    <p> <label>Price:</label><br> <input type="number" step="0.01" name="price" required style="width: 100%;"></p>
+    <p><label>Quantity:</label><br><input type="number" name="quantity" value="1" required style="width: 100%;"></p>
+    <p> <label>Publication Date:</label><br> <input type="datetime-local" name="pubdate" required style="width: 100%;"> </p>
+    <p> <label>Rating (1-5):</label><br> <input type="number" name="rating" min="1" max="5" value="1" style="width: 100%;"></p>
+    <p> <label>Publisher:</label><br> <select name="publisher" required style="width: 100%;">
+            <option value="">-- Select Publisher --</option>
+            {% for pub in publishers %}
+                <option value="{{ pub.id }}">{{ pub.name }}</option>
+            {% endfor %}
+        </select> </p>
+    <p> <label>Authors (Hold Ctrl to select multiple):</label><br> <select name="authors" multiple required style="width: 100%; height: 100px;">
+            {% for author in authors %}
+                <option value="{{ author.id }}">{{ author.name }}</option>
+            {% endfor %}
+        </select> </p>
+    <button type="submit" style="background-color: green; color: white; padding: 10px 20px; border: none; cursor: pointer;">
+        Save Book
+    </button>
+    <a href="{% url 'list_books' %}" style="margin-left: 10px;">Cancel</a>
+</form>
+{% endblock content %}

@@ -1,11 +1,89 @@
-from django.shortcuts import render
 from .models import Book
-from django.db.models import Q
 from django.db.models import Q, Avg, Max, Min, Sum, Count
 from .models import Address 
 from .models import Lab9Book
 from django.db.models import  F, FloatField, ExpressionWrapper, Value
 from .models import Publisher
+from .forms import BookForm
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Lab9Book, Publisher, Author
+from .forms import BookForm # تأكد من إنشاء ملف forms.py أولاً
+from datetime import datetime
+
+def add_book_form(request):
+    if request.method == 'POST':
+        form = BookForm(request.POST)
+        if form.is_valid():
+            form.save() # يحفظ الكتاب والعلاقات (ManyToMany) تلقائياً
+            return redirect('list_books')
+    else:
+        form = BookForm()
+    return render(request, 'bookmodule/book_form.html', {'form': form})
+
+def edit_book_form(request, id):
+    book = get_object_or_404(Lab9Book, id=id)
+    if request.method == 'POST':
+        form = BookForm(request.POST, instance=book)
+        if form.is_valid():
+            form.save()
+            return redirect('list_books')
+    else:
+        form = BookForm(instance=book)
+    return render(request, 'bookmodule/book_form.html', {'form': form})
+
+# Task 1: List Books
+def list_books2(request):
+    books = Lab9Book.objects.all()
+    return render(request, 'bookmodule/listbooks.html', {'books': books})
+# Task 2: Add Book (Manual)
+def add_book(request):
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        price = request.POST.get('price')
+        quantity = request.POST.get('quantity')
+        pubdate = request.POST.get('pubdate')
+        rating = request.POST.get('rating')
+        publisher_id = request.POST.get('publisher')
+        
+        publisher = Publisher.objects.get(id=publisher_id)
+        new_book = Lab9Book.objects.create(
+            title=title, price=price, quantity=quantity, 
+            pubdate=pubdate, rating=rating, publisher=publisher)
+        author_ids = request.POST.getlist('authors')
+        new_book.authors.set(author_ids)
+        return redirect('list_books')
+    publishers = Publisher.objects.all()
+    authors = Author.objects.all()
+    return render(request, 'bookmodule/addbook.html', {'publishers': publishers, 'authors': authors})
+
+# Task 3: Edit Book (Manual)
+def edit_book(request, id):
+    book = get_object_or_404(Lab9Book, id=id)
+    if request.method == 'POST':
+        book.title = request.POST.get('title')
+        book.price = request.POST.get('price')
+        book.quantity = request.POST.get('quantity')
+        book.rating = request.POST.get('rating')
+        pubdate_str = request.POST.get('pubdate')
+        if pubdate_str:
+            book.pubdate = datetime.fromisoformat(pubdate_str)
+        publisher_id = request.POST.get('publisher')
+        book.publisher = Publisher.objects.get(id=publisher_id)
+        book.save()
+        authors_ids = request.POST.getlist('authors')
+        book.authors.set(authors_ids)
+        return redirect('list_books') # العودة للقائمة[cite: 3]
+    publishers = Publisher.objects.all()
+    authors = Author.objects.all()
+    return render(request, 'bookmodule/edit_book.html', {
+        'book': book,
+        'publishers': publishers,
+        'authors': authors  })
+
+def delete_book(request, id):
+    book = get_object_or_404(Lab9Book, id=id)
+    book.delete()
+    return redirect('list_books')
 
 def task66(request):
     publishers = Publisher.objects.annotate(
