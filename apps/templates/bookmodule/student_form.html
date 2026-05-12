@@ -1,3 +1,11 @@
+{% if user.is_authenticated %}
+    <p>Welcome, {{ user.username }}! | <a href="{% url 'logout' %}">Logout</a></p>
+{% endif %}
+{% if messages %}
+    {% for message in messages %}
+        <p style="color: red;">{{ message }}</p>
+    {% endfor %}
+{% endif %}
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}

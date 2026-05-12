@@ -1,0 +1,20 @@
+<h2>Login Page</h2>
+
+{% if messages %}
+    {% for message in messages %}
+        <p style="color: red;">{{ message }}</p>
+    {% endfor %}
+{% endif %}
+
+<form method="post">
+    {% csrf_token %}
+    <p>
+        <label>Username:</label><br>
+        <input type="text" name="username" required>
+    </p>
+    <p>
+        <label>Password:</label><br>
+        <input type="password" name="password" required>
+    </p>
+    <button type="submit">Login</button>
+</form>

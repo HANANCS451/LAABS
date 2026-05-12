@@ -15,11 +15,13 @@ from .models import Student2
 from .forms import Student2Form
 from .models import StudentImage
 from .forms import ImageForm
+from django.contrib.auth.decorators import login_required
 
+@login_required(login_url='/users/login/')
 def list_images(request):
     images = StudentImage.objects.all()
     return render(request, 'bookmodule/list_images.html', {'images': images})
-
+@login_required(login_url='/users/login/')
 def upload_image(request):
     if request.method == "POST":
         form = ImageForm(request.POST, request.FILES) 
@@ -29,11 +31,11 @@ def upload_image(request):
     else:
         form = ImageForm()
     return render(request, 'bookmodule/upload_image.html', {'form': form})
-
+@login_required(login_url='/users/login/')
 def list_students2(request):
     students = Student2.objects.all()
     return render(request, 'bookmodule/list_students2.html', {'students': students})
-
+@login_required(login_url='/users/login/')
 def add_student2(request):
     if request.method == "POST":
         form = Student2Form(request.POST)
@@ -43,11 +45,11 @@ def add_student2(request):
     else:
         form = Student2Form()
     return render(request, 'bookmodule/student_form2.html', {'form': form})
-
+@login_required(login_url='/users/login/')
 def list_students(request):
     students = Student.objects.all()
     return render(request, 'bookmodule/list_students.html', {'students': students})
-
+@login_required(login_url='/users/login/')
 def add_student(request):
     if request.method == "POST":
         form = StudentForm(request.POST)
