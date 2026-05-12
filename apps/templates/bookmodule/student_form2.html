@@ -1,0 +1,7 @@
+<h2>add a student (Task 2 - Many-to-Many)</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">save dataa</button>
+    <a href="{% url 'list_students2' %}">cancel</a>
+</form>

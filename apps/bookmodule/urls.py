@@ -31,5 +31,14 @@ urlpatterns = [
     path('lab9_part1/deletebook/<int:id>', views.delete_book, name='delete_book'),    
     path('lab10_part2/addbook', views.add_book_form, name='add_book_form'),
     path('lab10_part2/editbook/<int:id>', views.edit_book_form, name='edit_book_form'),
+    path('students/', views.list_students, name='list_students'),
+    path('students/add/', views.add_student, name='add_student'),
+    path('students2/', views.list_students2, name='list_students2'),
+    path('students2/add/', views.add_student2, name='add_student2'),
+    path('images/', views.list_images, name='list_images'),
+    path('images/upload/', views.upload_image, name='upload_image'),
+
+
 
 ]
+

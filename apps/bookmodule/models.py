@@ -40,9 +40,30 @@ class Address(models.Model):
         return self.city
 
 class Student(models.Model):
-    name = models.CharField(max_length=100) 
-    age = models.IntegerField()           
-    address = models.ForeignKey(Address, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    age = models.IntegerField()
+    address = models.OneToOneField(Address, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.name
+    
+
+class Address2(models.Model):
+    city = models.CharField(max_length=100)
+    def __str__(self): return self.city
+
+class Student2(models.Model):
+    name = models.CharField(max_length=100)
+    age = models.IntegerField()
+    addresses = models.ManyToManyField(Address2) 
+
+    def __str__(self): return self.name
+
+class StudentImage(models.Model):
+    title = models.CharField(max_length=100)
+    image = models.ImageField(upload_to='images/') # سيتم إنشاء مجلد images داخل media
+
+    def __str__(self):
+        return self.title
+    
+

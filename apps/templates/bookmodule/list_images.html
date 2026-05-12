@@ -1,0 +1,9 @@
+<a href="{% url 'upload_image' %}">Upload Image</a>
+<div style="display: flex; gap: 10px;">
+    {% for img in images %}
+    <div>
+        <p>{{ img.title }}</p>
+        <img src="{{ img.image.url }}" width="200">
+    </div>
+    {% endfor %}
+</div>

@@ -1,0 +1,11 @@
+<a href="{% url 'add_student2' %}">add a new student (Task 2)</a>
+<ul>
+    {% for s in students %}
+    <li>
+        {{ s.name }} -city: 
+        {% for addr in s.addresses.all %}
+            {{ addr.city }}{% if not forloop.last %}, {% endif %}
+        {% endfor %}
+    </li>
+    {% endfor %}
+</ul>

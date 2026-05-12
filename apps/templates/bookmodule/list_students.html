@@ -1,0 +1,6 @@
+<a href="{% url 'add_student' %}">add a new student</a>
+<ul>
+    {% for s in students %}
+    <li>{{ s.name }} - city {{ s.address.city }}</li>
+    {% endfor %}
+</ul>

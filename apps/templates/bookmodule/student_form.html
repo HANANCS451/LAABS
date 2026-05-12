@@ -1,0 +1,7 @@
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">sava dataa</button>
+    <br><br>
+    <a href="{% url 'list_students' %}">cancel</a>
+</form>
